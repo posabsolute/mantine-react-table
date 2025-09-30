@@ -7,8 +7,8 @@ import {
 } from 'mantine-react-table';
 import { Anchor, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { SampleCodeSnippet } from '../mdx/SampleCodeSnippet';
 import { type CellInstanceAPI, cellInstanceAPIs } from './cellInstanceAPIs';
+import { InlineCodeHighlight } from '@mantine/code-highlight';
 
 interface Props {
   onlyOptions?: Set<keyof MRT_Cell<CellInstanceAPI>>;
@@ -34,9 +34,9 @@ const CellInstanceAPIsTable = ({ onlyOptions }: Props) => {
           header: 'Type',
           enableGlobalFilter: false,
           Cell: ({ cell }) => (
-            <SampleCodeSnippet
+            <InlineCodeHighlight
+              bg="transparent"
               language="typescript"
-              withCopyButton={false}
               code={cell.getValue<string>()}
             />
           ),
@@ -104,7 +104,7 @@ const CellInstanceAPIsTable = ({ onlyOptions }: Props) => {
       enableColumnActions={!onlyOptions}
       enableColumnFilterModes
       enablePagination={false}
-      enablePinning
+      enableColumnPinning
       enableRowNumbers
       enableBottomToolbar={false}
       enableTopToolbar={!onlyOptions}
@@ -131,7 +131,7 @@ const CellInstanceAPIsTable = ({ onlyOptions }: Props) => {
           {row.original.description || 'No Description Provided... Yet...'}
         </Text>
       )}
-      rowNumberMode="static"
+      rowNumberDisplayMode="static"
       onColumnPinningChange={setColumnPinning}
       state={{ columnPinning }}
     />

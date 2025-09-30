@@ -1,3 +1,6 @@
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css'; //if using mantine date picker features
+import 'mantine-react-table/styles.css'; //make sure MRT styles were imported in your app root (once)
 import { useMemo } from 'react';
 import {
   MantineReactTable,
@@ -87,9 +90,9 @@ const Example = () => {
                     cell.getValue<number>() < 50_000
                       ? theme.colors.red[9]
                       : cell.getValue<number>() >= 50_000 &&
-                        cell.getValue<number>() < 75_000
-                      ? theme.colors.yellow[9]
-                      : theme.colors.green[9],
+                          cell.getValue<number>() < 75_000
+                        ? theme.colors.yellow[9]
+                        : theme.colors.green[9],
                   borderRadius: '4px',
                   color: '#fff',
                   maxWidth: '9ch',
@@ -139,10 +142,17 @@ const Example = () => {
     enableColumnOrdering: true,
     enableFacetedValues: true,
     enableGrouping: true,
-    enablePinning: true,
+    enableColumnPinning: true,
     enableRowActions: true,
     enableRowSelection: true,
-    initialState: { showColumnFilters: true, showGlobalFilter: true },
+    initialState: {
+      showColumnFilters: true,
+      showGlobalFilter: true,
+      columnPinning: {
+        left: ['mrt-row-expand', 'mrt-row-select'],
+        right: ['mrt-row-actions'],
+      },
+    },
     paginationDisplayMode: 'pages',
     positionToolbarAlertBanner: 'bottom',
     mantinePaginationProps: {

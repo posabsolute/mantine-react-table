@@ -1,13 +1,19 @@
 import { useState } from 'react';
-import { type Meta } from '@storybook/react';
+
+import { Center, Flex, Group, Stack, Switch, Text, Title } from '@mantine/core';
+
 import {
   MantineReactTable,
-  MRT_EditActionButtons,
   type MRT_Cell,
+  type MRT_ColumnDef,
+  type MRT_ColumnOrderState,
+  MRT_EditActionButtons,
   type MRT_TableOptions,
+  useMantineReactTable,
 } from '../../src';
+
 import { faker } from '@faker-js/faker';
-import { Flex, Stack, Title } from '@mantine/core';
+import { type Meta } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Features/Editing Examples',
@@ -73,24 +79,25 @@ const usStates = [
 ];
 
 type Person = {
+  address: string;
   firstName: string;
   lastName: string;
-  address: string;
-  state: string;
   phoneNumber: string;
+  state: string;
+  visitedStates: string[];
 };
 
 const data: Person[] = [...Array(100)].map(() => ({
+  address: faker.location.streetAddress(),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
-  address: faker.location.streetAddress(),
-  state: faker.location.state(),
   phoneNumber: faker.phone.number(),
+  state: faker.location.state(),
+  visitedStates: faker.helpers.multiple(faker.location.state),
 }));
 
 export const EditingEnabledEditModeModalDefault = () => {
   const [tableData, setTableData] = useState(data);
-
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
     exitEditingMode,
     row,
@@ -101,33 +108,36 @@ export const EditingEnabledEditModeModalDefault = () => {
     exitEditingMode();
   };
 
+  const columns = [
+    {
+      accessorKey: 'firstName',
+      header: 'First Name',
+    },
+    {
+      accessorKey: 'lastName',
+      header: 'Last Name',
+    },
+    {
+      accessorKey: 'address',
+      header: 'Address',
+    },
+    {
+      accessorKey: 'state',
+      header: 'State',
+    },
+    {
+      accessorKey: 'phoneNumber',
+      enableEditing: false,
+      header: 'Phone Number',
+    },
+  ];
+
   return (
     <MantineReactTable
-      columns={[
-        {
-          header: 'First Name',
-          accessorKey: 'firstName',
-        },
-        {
-          header: 'Last Name',
-          accessorKey: 'lastName',
-        },
-        {
-          header: 'Address',
-          accessorKey: 'address',
-        },
-        {
-          header: 'State',
-          accessorKey: 'state',
-        },
-        {
-          header: 'Phone Number',
-          accessorKey: 'phoneNumber',
-          enableEditing: false,
-        },
-      ]}
+      columns={columns}
       data={tableData}
       enableEditing
+      enableRowNumbers
       onEditingRowSave={handleSaveRow}
     />
   );
@@ -150,30 +160,30 @@ export const EditingEnabledEditModeRow = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
+          header: 'State',
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
           enableEditing: false,
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
-      enableEditing
       editDisplayMode="row"
+      enableEditing
       onEditingRowSave={handleSaveRow}
     />
   );
@@ -192,25 +202,25 @@ export const EditingEnabledEditModeCell = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
+          header: 'State',
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
           enableEditing: false,
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
@@ -239,24 +249,24 @@ export const EditingEnabledEditModeTable = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
+          header: 'State',
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
@@ -278,24 +288,24 @@ export const EditingEnabledEditModeCustom = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
+          header: 'State',
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
@@ -319,24 +329,24 @@ export const CustomEditModal = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
+          header: 'State',
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
@@ -361,14 +371,91 @@ export const CustomEditModal = () => {
     />
   );
 };
+const multiSelectColumns: MRT_ColumnDef<Person>[] = [
+  {
+    accessorKey: 'firstName',
+    header: 'First Name',
+  },
+  {
+    accessorKey: 'lastName',
+    header: 'Last Name',
+  },
+  {
+    accessorKey: 'address',
+    header: 'Address',
+  },
+  {
+    accessorKey: 'visitedStates',
+    Cell: ({ cell }) => {
+      return (cell.getValue() as string[]).join(', ');
+    },
+    editVariant: 'multi-select',
+    header: 'Visited States',
+    mantineEditSelectProps: {
+      data: usStates as any,
+    },
+  },
+  {
+    accessorKey: 'phoneNumber',
+    header: 'Phone Number',
+  },
+];
+export const EditMultiSelectVariant = () => {
+  const [tableData, setTableData] = useState(data);
+
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
+    exitEditingMode,
+    row,
+    values,
+  }) => {
+    tableData[+row.index] = values;
+    setTableData([...tableData]);
+    exitEditingMode();
+  };
+
+  return (
+    <MantineReactTable
+      columns={multiSelectColumns}
+      data={tableData}
+      editDisplayMode="row"
+      enableEditing
+      enableRowActions
+      onEditingRowSave={handleSaveRow}
+    />
+  );
+};
+
+export const EditMultiSelectVariantModal = () => {
+  const [tableData, setTableData] = useState(data);
+
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
+    exitEditingMode,
+    row,
+    values,
+  }) => {
+    tableData[+row.index] = values;
+    setTableData([...tableData]);
+    exitEditingMode();
+  };
+
+  return (
+    <MantineReactTable
+      columns={multiSelectColumns}
+      data={tableData}
+      enableEditing
+      enableRowActions
+      onEditingRowSave={handleSaveRow}
+    />
+  );
+};
 
 export const EditSelectVariant = () => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
+    exitEditingMode,
     row,
     values,
-    exitEditingMode,
   }) => {
     tableData[+row.index] = values;
     setTableData([...tableData]);
@@ -379,34 +466,34 @@ export const EditSelectVariant = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
           editVariant: 'select',
+          header: 'State',
           mantineEditSelectProps: {
             data: usStates as any,
           },
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
       editDisplayMode="row"
-      enableRowActions
       enableEditing
+      enableRowActions
       onEditingRowSave={handleSaveRow}
     />
   );
@@ -416,9 +503,9 @@ export const EditSelectVariantAlternate = () => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
+    exitEditingMode,
     row,
     values,
-    exitEditingMode,
   }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
@@ -429,79 +516,79 @@ export const EditSelectVariantAlternate = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
           editVariant: 'select',
+          header: 'State',
           mantineEditSelectProps: {
             data: [
-              { value: 'Alabama', label: 'AL' },
-              { value: 'Alaska', label: 'AK' },
-              { value: 'American Samoa', label: 'AS' },
-              { value: 'Arizona', label: 'AZ' },
-              { value: 'Arkansas', label: 'AR' },
-              { value: 'California', label: 'CA' },
-              { value: 'Colorado', label: 'CO' },
-              { value: 'Connecticut', label: 'CT' },
-              { value: 'Delaware', label: 'DE' },
-              { value: 'Florida', label: 'FL' },
-              { value: 'Georgia', label: 'GA' },
-              { value: 'Guam', label: 'GU' },
-              { value: 'Hawaii', label: 'HI' },
-              { value: 'Idaho', label: 'ID' },
-              { value: 'Illinois', label: 'IL' },
-              { value: 'Indiana', label: 'IN' },
-              { value: 'Iowa', label: 'IA' },
-              { value: 'Kansas', label: 'KS' },
-              { value: 'Kentucky', label: 'KY' },
-              { value: 'Louisiana', label: 'LA' },
-              { value: 'Maine', label: 'ME' },
-              { value: 'Maryland', label: 'MD' },
-              { value: 'Massachusetts', label: 'MA' },
-              { value: 'Michigan', label: 'MI' },
-              { value: 'Minnesota', label: 'MN' },
-              { value: 'Mississippi', label: 'MS' },
-              { value: 'Missouri', label: 'MO' },
-              { value: 'Montana', label: 'MT' },
-              { value: 'Nebraska', label: 'NE' },
-              { value: 'Nevada', label: 'NV' },
-              { value: 'New Hampshire', label: 'NH' },
-              { value: 'New Jersey', label: 'NJ' },
-              { value: 'New Mexico', label: 'NM' },
-              { value: 'New York', label: 'NY' },
-              { value: 'North Carolina', label: 'NC' },
-              { value: 'North Dakota', label: 'ND' },
-              { value: 'Northern Mariana Islands', label: 'MP' },
-              { value: 'Ohio', label: 'OH' },
-              { value: 'Oklahoma', label: 'OK' },
-              { value: 'Oregon', label: 'OR' },
-              { value: 'Pennsylvania', label: 'PA' },
-              { value: 'Puerto Rico', label: 'PR' },
-              { value: 'Rhode Island', label: 'RI' },
-              { value: 'South Carolina', label: 'SC' },
+              { label: 'AL', value: 'Alabama' },
+              { label: 'AK', value: 'Alaska' },
+              { label: 'AS', value: 'American Samoa' },
+              { label: 'AZ', value: 'Arizona' },
+              { label: 'AR', value: 'Arkansas' },
+              { label: 'CA', value: 'California' },
+              { label: 'CO', value: 'Colorado' },
+              { label: 'CT', value: 'Connecticut' },
+              { label: 'DE', value: 'Delaware' },
+              { label: 'FL', value: 'Florida' },
+              { label: 'GA', value: 'Georgia' },
+              { label: 'GU', value: 'Guam' },
+              { label: 'HI', value: 'Hawaii' },
+              { label: 'ID', value: 'Idaho' },
+              { label: 'IL', value: 'Illinois' },
+              { label: 'IN', value: 'Indiana' },
+              { label: 'IA', value: 'Iowa' },
+              { label: 'KS', value: 'Kansas' },
+              { label: 'KY', value: 'Kentucky' },
+              { label: 'LA', value: 'Louisiana' },
+              { label: 'ME', value: 'Maine' },
+              { label: 'MD', value: 'Maryland' },
+              { label: 'MA', value: 'Massachusetts' },
+              { label: 'MI', value: 'Michigan' },
+              { label: 'MN', value: 'Minnesota' },
+              { label: 'MS', value: 'Mississippi' },
+              { label: 'MO', value: 'Missouri' },
+              { label: 'MT', value: 'Montana' },
+              { label: 'NE', value: 'Nebraska' },
+              { label: 'NV', value: 'Nevada' },
+              { label: 'NH', value: 'New Hampshire' },
+              { label: 'NJ', value: 'New Jersey' },
+              { label: 'NM', value: 'New Mexico' },
+              { label: 'NY', value: 'New York' },
+              { label: 'NC', value: 'North Carolina' },
+              { label: 'ND', value: 'North Dakota' },
+              { label: 'MP', value: 'Northern Mariana Islands' },
+              { label: 'OH', value: 'Ohio' },
+              { label: 'OK', value: 'Oklahoma' },
+              { label: 'OR', value: 'Oregon' },
+              { label: 'PA', value: 'Pennsylvania' },
+              { label: 'PR', value: 'Puerto Rico' },
+              { label: 'RI', value: 'Rhode Island' },
+              { label: 'SC', value: 'South Carolina' },
             ] as any,
           },
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
       editDisplayMode="row"
-      enableRowActions
       enableEditing
+      enableRowActions
       onEditingRowSave={handleSaveRow}
     />
   );
@@ -511,9 +598,9 @@ export const EditingCustomizeInput = () => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
+    exitEditingMode,
     row,
     values,
-    exitEditingMode,
   }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
@@ -581,38 +668,38 @@ export const EditingCustomizeInput = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
           editVariant: 'select',
+          header: 'State',
           mantineEditSelectProps: {
-            data: usStates.map((state) => ({ value: state, label: state })),
-            variant: 'filled',
+            data: usStates.map((state) => ({ label: state, value: state })),
             description: 'Select state (optional)',
+            variant: 'filled',
           },
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
+      enableEditing
       enableRowActions
       mantineEditTextInputProps={{
         withAsterisk: true,
       }}
-      enableEditing
       onEditingRowSave={handleSaveRow}
     />
   );
@@ -698,9 +785,9 @@ export const EditingEnabledAsync = () => {
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
+    exitEditingMode,
     row,
     values,
-    exitEditingMode,
   }) => {
     setIsSaving(true);
     setTimeout(() => {
@@ -715,29 +802,29 @@ export const EditingEnabledAsync = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
+          header: 'State',
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
-      enableRowActions
       enableEditing
+      enableRowActions
       onEditingRowSave={handleSaveRow}
       state={{
         isSaving,
@@ -751,9 +838,9 @@ export const EditingEnabledAsyncRow = () => {
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
+    exitEditingMode,
     row,
     values,
-    exitEditingMode,
   }) => {
     setIsSaving(true);
     setTimeout(() => {
@@ -768,24 +855,24 @@ export const EditingEnabledAsyncRow = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
+          header: 'State',
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
@@ -801,13 +888,13 @@ export const EditingEnabledAsyncRow = () => {
 };
 
 const nestedData = [...Array(10)].map(() => ({
+  address: faker.location.streetAddress(),
   name: {
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
   },
-  address: faker.location.streetAddress(),
-  state: faker.location.state(),
   phoneNumber: faker.phone.number(),
+  state: faker.location.state(),
 }));
 
 export const EditingNestedData = () => {
@@ -817,39 +904,39 @@ export const EditingNestedData = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorFn: (row) => row.name.firstName,
+          header: 'First Name',
           id: 'firstName',
         },
         {
-          header: 'Last Name',
           accessorKey: 'name.lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
+          header: 'State',
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
           enableEditing: false,
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
       enableEditing
-      onEditingRowSave={({ row, values, exitEditingMode }) => {
+      onEditingRowSave={({ exitEditingMode, row, values }) => {
         tableData[row.index] = {
+          address: row._valuesCache.address,
           name: {
             firstName: values.firstName,
             lastName: values['name.lastName'],
           },
-          address: row._valuesCache.address,
-          state: row._valuesCache.state,
           phoneNumber: row._valuesCache.phoneNumber,
+          state: row._valuesCache.state,
         };
         setTableData([...tableData]);
         exitEditingMode();
@@ -875,31 +962,31 @@ export const EditingEnabledEditModeTableWithGroupedRows = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
+          header: 'State',
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
           enableEditing: false,
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
+      editDisplayMode="table"
       enableEditing
       enableGrouping
-      editDisplayMode="table"
       onEditingRowSave={handleSaveRow}
     />
   );
@@ -922,30 +1009,30 @@ export const EnableEditingConditionally = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
+          header: 'State',
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
           enableEditing: (row) => row.original.state.includes('N'),
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
-      enableEditing={(row) => row.index % 2 === 0}
       editDisplayMode="row"
+      enableEditing={(row) => row.index % 2 === 0}
       onEditingRowSave={handleSaveRow}
     />
   );
@@ -968,30 +1055,30 @@ export const EnableEditingConditionallyCell = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
+          header: 'State',
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
           enableEditing: (row) => row.original.state.includes('N'),
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
-      enableEditing={(row) => row.index % 2 === 0}
       editDisplayMode="cell"
+      enableEditing={(row) => row.index % 2 === 0}
       onEditingRowSave={handleSaveRow}
     />
   );
@@ -1014,31 +1101,205 @@ export const EnableEditingConditionallyTable = () => {
     <MantineReactTable
       columns={[
         {
-          header: 'First Name',
           accessorKey: 'firstName',
+          header: 'First Name',
         },
         {
-          header: 'Last Name',
           accessorKey: 'lastName',
+          header: 'Last Name',
         },
         {
-          header: 'Address',
           accessorKey: 'address',
+          header: 'Address',
         },
         {
-          header: 'State',
           accessorKey: 'state',
+          header: 'State',
         },
         {
-          header: 'Phone Number',
           accessorKey: 'phoneNumber',
           enableEditing: (row) => row.original.state.includes('N'),
+          header: 'Phone Number',
         },
       ]}
       data={tableData}
-      enableEditing={(row) => row.index % 2 === 0}
       editDisplayMode="table"
+      enableEditing={(row) => row.index % 2 === 0}
       onEditingRowSave={handleSaveRow}
     />
+  );
+};
+
+export const EditingTurnedOnDynamically = () => {
+  const [tableData, setTableData] = useState(data);
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
+    exitEditingMode,
+    row,
+    values,
+  }) => {
+    tableData[row.index] = values;
+    setTableData([...tableData]);
+    exitEditingMode();
+  };
+
+  const columns = [
+    {
+      accessorKey: 'firstName',
+      header: 'First Name',
+    },
+    {
+      accessorKey: 'lastName',
+      header: 'Last Name',
+    },
+    {
+      accessorKey: 'address',
+      header: 'Address',
+    },
+    {
+      accessorKey: 'state',
+      header: 'State',
+    },
+    {
+      accessorKey: 'phoneNumber',
+      enableEditing: false,
+      header: 'Phone Number',
+    },
+  ];
+
+  const [enableRowNumbers, _setEnableRowNumbers] = useState(false);
+  const [enableEditing, _setEnableEditing] = useState(false);
+
+  const [columnOrder, setColumnOrder] = useState<MRT_ColumnOrderState>(() => {
+    return [
+      enableEditing && 'mrt-row-actions',
+      enableRowNumbers && 'mrt-row-numbers',
+      ...columns.map((c) => c.accessorKey),
+    ].filter(Boolean) as MRT_ColumnOrderState;
+  });
+
+  const updateColumnOrder = ({
+    enableEditing,
+    enableRowNumbers,
+  }: {
+    enableEditing: boolean;
+    enableRowNumbers: boolean;
+  }) => {
+    let newColumnOrder = columnOrder;
+    if (enableRowNumbers) {
+      newColumnOrder = ['mrt-row-numbers', ...newColumnOrder];
+    } else {
+      newColumnOrder = newColumnOrder.filter(
+        (col) => col !== 'mrt-row-numbers',
+      );
+    }
+    if (enableEditing) {
+      newColumnOrder = ['mrt-row-actions', ...newColumnOrder];
+    } else {
+      newColumnOrder = newColumnOrder.filter(
+        (col) => col !== 'mrt-row-actions',
+      );
+    }
+    setColumnOrder(newColumnOrder);
+  };
+
+  const setEnableEditing = (value: boolean) => {
+    _setEnableEditing(value);
+    updateColumnOrder({
+      enableEditing: value,
+      enableRowNumbers,
+    });
+  };
+
+  const setEnableRowNumbers = (value: boolean) => {
+    _setEnableRowNumbers(value);
+    updateColumnOrder({
+      enableEditing,
+      enableRowNumbers: value,
+    });
+  };
+
+  return (
+    <Stack>
+      <Switch
+        checked={enableEditing}
+        label="Enable Editing"
+        onChange={(e) => setEnableEditing(e.currentTarget.checked)}
+      />{' '}
+      <Switch
+        checked={enableRowNumbers}
+        label="Enable Row Numbers"
+        onChange={(e) => setEnableRowNumbers(e.currentTarget.checked)}
+      />
+      <MantineReactTable
+        columns={columns}
+        data={tableData}
+        enableEditing={enableEditing}
+        enableRowNumbers={enableRowNumbers}
+        onColumnOrderChange={setColumnOrder}
+        onEditingRowSave={handleSaveRow}
+        state={{ columnOrder }}
+      />
+    </Stack>
+  );
+};
+
+export const EditingInDetailPannel = () => {
+  const [withData, setWithData] = useState(false);
+
+  const columns = [
+    {
+      accessorKey: 'firstName',
+      header: 'First Name',
+    },
+    {
+      accessorKey: 'lastName',
+      header: 'Last Name',
+    },
+    {
+      accessorKey: 'address',
+      header: 'Address',
+    },
+    {
+      accessorKey: 'state',
+      header: 'State',
+    },
+    {
+      accessorKey: 'phoneNumber',
+      enableEditing: false,
+      header: 'Phone Number',
+    },
+  ];
+
+  const table = useMantineReactTable({
+    columns,
+    data: withData ? data : [],
+    renderDetailPanel: ({ internalEditComponents, row, table }) => (
+      <Center>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <Group gap="md" pb={24} pt={16}>
+            {internalEditComponents}
+          </Group>
+        </form>
+        <Flex justify="flex-end">
+          <MRT_EditActionButtons row={row} table={table} variant="text" />
+        </Flex>
+      </Center>
+    ),
+    renderEmptyRowsFallback: () => (
+      <Center>
+        <Text>This table is empty, click on the chevron to add a record</Text>
+      </Center>
+    ),
+  });
+
+  return (
+    <Stack>
+      <Switch
+        checked={withData}
+        label="Show data"
+        onChange={(e) => setWithData(e.currentTarget.checked)}
+      />
+      <MantineReactTable table={table} />
+    </Stack>
   );
 };

@@ -1,15 +1,17 @@
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css'; //if using mantine date picker features
+import 'mantine-react-table/styles.css'; //make sure MRT styles were imported in your app root (once)
 import { useRef } from 'react';
 import {
   MantineReactTable,
   useMantineReactTable,
-  type MRT_Virtualizer,
+  type MRT_ColumnVirtualizer,
 } from 'mantine-react-table';
 import { fakeColumns, fakeData } from './makeData';
 
 const Example = () => {
   //optionally access the underlying virtualizer instance
-  const columnVirtualizerInstanceRef =
-    useRef<MRT_Virtualizer<HTMLDivElement, HTMLTableCellElement>>(null);
+  const columnVirtualizerInstanceRef = useRef<MRT_ColumnVirtualizer>(null);
 
   const table = useMantineReactTable({
     columnVirtualizerInstanceRef, //optional
@@ -17,7 +19,7 @@ const Example = () => {
     columns: fakeColumns, //500 columns
     data: fakeData,
     enableColumnVirtualization: true,
-    enablePinning: true,
+    enableColumnPinning: true,
     enableRowNumbers: true,
   });
 

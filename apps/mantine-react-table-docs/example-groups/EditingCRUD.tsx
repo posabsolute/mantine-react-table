@@ -5,6 +5,7 @@ import ModalExample from '../examples/editing-crud-modal';
 import InlineRowExample from '../examples/editing-crud-row';
 import InlineCellExample from '../examples/editing-crud-cell';
 import InlineTableExample from '../examples/editing-crud-table';
+import TreeEditingExample from '../examples/editing-crud-tree';
 import Link from 'next/link';
 import { IconExternalLink } from '@tabler/icons-react';
 
@@ -33,6 +34,9 @@ const EditingCRUD = ({ isPage = false }) => {
             <Tabs.Tab value="editing-crud-inline-table">
               Inline Table (All Rows Editable)
             </Tabs.Tab>
+            <Link href="/docs/examples/editing-crud-tree">
+              <Tabs.Tab value="editing-crud-tree">Tree Editing</Tabs.Tab>
+            </Link>
             <Link href="/docs/examples">
               <Tabs.Tab value="more">
                 More Examples <IconExternalLink size="1rem" />
@@ -50,6 +54,9 @@ const EditingCRUD = ({ isPage = false }) => {
           </Tabs.Panel>
           <Tabs.Panel value="editing-crud-inline-table">
             <InlineTableExample />
+          </Tabs.Panel>
+          <Tabs.Panel value="editing-crud-tree">
+            <TreeEditingExample />
           </Tabs.Panel>
         </Tabs>
       </Box>

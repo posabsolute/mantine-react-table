@@ -7,9 +7,9 @@ import {
 } from 'mantine-react-table';
 import { Anchor, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { SampleCodeSnippet } from '../mdx/SampleCodeSnippet';
 import { type TableOption, tableOptions } from './tableOptions';
 import { getPrimaryColor } from 'mantine-react-table';
+import { InlineCodeHighlight } from '@mantine/code-highlight';
 
 interface Props {
   onlyOptions?: Set<keyof MRT_TableOptions<TableOption>>;
@@ -48,9 +48,9 @@ const TableOptionsTable = ({ onlyOptions }: Props) => {
           accessorKey: 'type',
           enableGlobalFilter: false,
           Cell: ({ cell }) => (
-            <SampleCodeSnippet
+            <InlineCodeHighlight
+              bg="transparent"
               language="typescript"
-              withCopyButton={false}
               code={cell.getValue<string>()}
             />
           ),
@@ -65,9 +65,9 @@ const TableOptionsTable = ({ onlyOptions }: Props) => {
           accessorKey: 'defaultValue',
           enableGlobalFilter: false,
           Cell: ({ cell }) => (
-            <SampleCodeSnippet
+            <InlineCodeHighlight
+              bg="transparent"
               language="typescript"
-              withCopyButton={false}
               code={cell.getValue<string>()}
             />
           ),
@@ -85,14 +85,14 @@ const TableOptionsTable = ({ onlyOptions }: Props) => {
           Cell: ({ cell, row }) => (
             <Link href={cell.getValue() as string} passHref legacyBehavior>
               <Anchor
-                color={
+                c={
                   row.original.source === 'MRT'
                     ? 'dimmed'
                     : row.original.source === 'Mantine'
-                    ? 'teal'
-                    : row.original.source === 'TanStack Table'
-                    ? 'blue'
-                    : undefined
+                      ? 'teal'
+                      : row.original.source === 'TanStack Table'
+                        ? 'blue'
+                        : undefined
                 }
                 target={
                   (cell.getValue() as string).startsWith('http')
@@ -149,7 +149,7 @@ const TableOptionsTable = ({ onlyOptions }: Props) => {
       enableColumnActions={!onlyOptions}
       enableColumnFilterModes
       enablePagination={false}
-      enablePinning
+      enableColumnPinning
       enableRowNumbers
       enableBottomToolbar={false}
       enableTopToolbar={!onlyOptions}
@@ -174,7 +174,7 @@ const TableOptionsTable = ({ onlyOptions }: Props) => {
           {row.original.description || 'No Description Provided... Yet...'}
         </Text>
       )}
-      rowNumberMode="static"
+      rowNumberDisplayMode="static"
       onColumnPinningChange={setColumnPinning}
       state={{ columnPinning }}
     />

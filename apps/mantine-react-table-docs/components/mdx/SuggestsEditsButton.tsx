@@ -11,14 +11,14 @@ export const SuggestsEditsButton = () => {
   return (
     <Stack mt="2rem" justify="center">
       <a
-        href={`https://github.com/KevinVandy/mantine-react-table/edit/main/apps/mantine-react-table-docs/pages${pathname}${
+        href={`https://github.com/KevinVandy/mantine-react-table/edit/v2/apps/mantine-react-table-docs/pages${pathname}${
           ['/'].includes(pathname)
             ? 'index.tsx'
             : ['/docs', '/docs/api', '/docs/examples', '/docs/guides'].includes(
-                pathname,
-              )
-            ? '/index.mdx'
-            : '.mdx'
+                  pathname,
+                )
+              ? '/index.mdx'
+              : '.mdx'
         }`}
         rel="noopener"
         target="_blank"
@@ -35,21 +35,6 @@ export const SuggestsEditsButton = () => {
           Suggest an Edit for this page on GitHub
         </Button>
       </a>
-      <Text className={classes.youCanHelpMakeTheseDocsBetter}>
-        You can help make these docs better!{' '}
-        <a
-          aria-label="Learn how to contribute"
-          href="http://makeapullrequest.com"
-          target="_blank"
-          rel="noopener"
-          style={{ marginLeft: '8px' }}
-        >
-          <img
-            alt="PRs are Welcome"
-            src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square"
-          />
-        </a>
-      </Text>
       <Text className={classes.materialUi}>
         Using{' '}
         <Anchor

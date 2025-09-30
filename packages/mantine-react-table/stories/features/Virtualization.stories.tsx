@@ -1,6 +1,11 @@
-import { type Meta } from '@storybook/react';
+import { useEffect, useState } from 'react';
+
+import { Modal } from '@mantine/core';
+
 import { MantineReactTable, type MRT_ColumnDef } from '../../src';
+
 import { faker } from '@faker-js/faker';
+import { type Meta } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Features/Virtualization',
@@ -8,105 +13,129 @@ const meta: Meta = {
 
 export default meta;
 
-const longColumns: MRT_ColumnDef[] = [
+const longColumns: MRT_ColumnDef<any>[] = [
   {
-    header: 'First Name',
     accessorKey: 'firstName',
+    header: 'First Name',
   },
   {
-    header: 'Middle Name',
     accessorKey: 'middleName',
+    header: 'Middle Name',
   },
   {
-    header: 'Last Name',
     accessorKey: 'lastName',
+    header: 'Last Name',
   },
   {
-    header: 'Email Address',
     accessorKey: 'email',
+    header: 'Email Address',
     size: 300,
   },
   {
-    header: 'Phone Number',
     accessorKey: 'phoneNumber',
+    header: 'Phone Number',
   },
   {
-    header: 'Address',
     accessorKey: 'address',
+    header: 'Address',
   },
   {
-    header: 'Zip Code',
     accessorKey: 'zipCode',
+    header: 'Zip Code',
   },
   {
-    header: 'City',
     accessorKey: 'city',
+    header: 'City',
   },
   {
-    header: 'State',
     accessorKey: 'state',
+    header: 'State',
   },
   {
-    header: 'Country',
     accessorKey: 'country',
+    header: 'Country',
     size: 200,
   },
   {
-    header: 'Favorite Color',
     accessorKey: 'favoriteColor',
+    header: 'Favorite Color',
   },
   {
-    header: 'Favorite Quote',
     accessorKey: 'favoriteQuote',
+    header: 'Favorite Quote',
     size: 700,
   },
   {
-    header: 'Pet Name',
     accessorKey: 'petName',
+    header: 'Pet Name',
   },
   {
-    header: 'Pet Type',
     accessorKey: 'petType',
+    header: 'Pet Type',
   },
 ];
 
 const longData = [...Array(500)].map(() => ({
-  firstName: faker.person.firstName(),
-  middleName: faker.person.firstName(),
-  lastName: faker.person.lastName(),
-  email: faker.internet.email(),
-  phoneNumber: faker.phone.number(),
   address: faker.location.streetAddress(),
-  zipCode: faker.location.zipCode(),
   city: faker.location.city(),
-  state: faker.location.state(),
   country: faker.location.country(),
-  favoriteQuote: faker.lorem.sentence(),
+  email: faker.internet.email(),
   favoriteColor: faker.internet.color(),
+  favoriteQuote: faker.lorem.sentence(),
+  firstName: faker.person.firstName(),
+  lastName: faker.person.lastName(),
+  middleName: faker.person.firstName(),
   petName: faker.animal.cat(),
   petType: faker.animal.type(),
+  phoneNumber: faker.phone.number(),
+  state: faker.location.state(),
+  zipCode: faker.location.zipCode(),
 }));
 
 export const EnableRowVirtualizationDense = () => (
   <MantineReactTable
     columns={longColumns}
     data={longData}
+    enableBottomToolbar={false}
     enablePagination={false}
     enableRowNumbers
     enableRowVirtualization
-    enableBottomToolbar={false}
     initialState={{ density: 'xs' }}
   />
 );
+
+export const EnableRowVirtualizationInModal = () => {
+  const [opened, setOpened] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setOpened(true);
+    }, 100);
+  }, []);
+
+  return (
+    <Modal onClose={() => setOpened(false)} opened={opened} size="xl">
+      <MantineReactTable
+        columns={longColumns}
+        data={longData}
+        enableBottomToolbar={false}
+        enableColumnVirtualization
+        enablePagination={false}
+        enableRowNumbers
+        enableRowVirtualization
+      />
+    </Modal>
+  );
+};
 
 export const EnableRowVirtualizationComfortable = () => (
   <MantineReactTable
     columns={longColumns}
     data={longData}
+    enableBottomToolbar={false}
     enablePagination={false}
     enableRowNumbers
     enableRowVirtualization
-    enableBottomToolbar={false}
   />
 );
 
@@ -114,28 +143,22 @@ export const EnableRowVirtualizationSpacious = () => (
   <MantineReactTable
     columns={longColumns}
     data={longData}
+    enableBottomToolbar={false}
     enablePagination={false}
     enableRowNumbers
     enableRowVirtualization
-    enableBottomToolbar={false}
     initialState={{ density: 'xl' }}
   />
 );
 
 export const EnableRowVirtualizationTallContent = () => (
   <MantineReactTable
-    columns={[
-      ...longColumns,
-      {
-        header: 'Favorite Quote',
-        accessorKey: 'favoriteQuote',
-      },
-    ]}
+    columns={longColumns}
     data={longData}
+    enableBottomToolbar={false}
     enablePagination={false}
     enableRowNumbers
     enableRowVirtualization
-    enableBottomToolbar={false}
   />
 );
 
@@ -143,22 +166,22 @@ export const EnableRowVirtualizationWithColumnResizing = () => (
   <MantineReactTable
     columns={longColumns}
     data={longData}
+    enableBottomToolbar={false}
     enableColumnResizing
     enablePagination={false}
     enableRowNumbers
     enableRowVirtualization
-    enableBottomToolbar={false}
   />
 );
 
 export const EnableRowVirtualizationWithDetailPanel = () => (
   <MantineReactTable
     columns={longColumns}
-    data={longData.slice(0, 100)}
+    data={longData}
+    enableBottomToolbar={false}
     enablePagination={false}
     enableRowNumbers
     enableRowVirtualization
-    enableBottomToolbar={false}
     renderDetailPanel={() => <div>Detail Panel</div>}
   />
 );
@@ -195,26 +218,26 @@ export const EnableRowVirtualizationStickyFooter = () => (
   <MantineReactTable
     columns={[
       {
-        header: 'First Name',
-        footer: 'First Name',
         accessorKey: 'firstName',
+        footer: 'First Name',
+        header: 'First Name',
       },
       {
-        header: 'Middle Name',
-        footer: 'Middle Name',
         accessorKey: 'middleName',
+        footer: 'Middle Name',
+        header: 'Middle Name',
       },
       {
-        header: 'Last Name',
-        footer: 'Last Name',
         accessorKey: 'lastName',
+        footer: 'Last Name',
+        header: 'Last Name',
       },
     ]}
     data={longData}
+    enableBottomToolbar={false}
     enablePagination={false}
     enableRowNumbers
     enableRowVirtualization
-    enableBottomToolbar={false}
     enableStickyFooter
   />
 );
@@ -223,8 +246,8 @@ export const EnableColumnVirtualization = () => (
   <MantineReactTable
     columns={longColumns}
     data={longData.slice(0, 10)}
-    enableRowNumbers
     enableColumnVirtualization
+    enableRowNumbers
   />
 );
 
@@ -232,8 +255,8 @@ export const EnableColumnVirtualizationWithPinning = () => (
   <MantineReactTable
     columns={longColumns}
     data={longData.slice(0, 10)}
+    enableColumnPinning
     enableColumnVirtualization
-    enablePinning
     enableRowNumbers
   />
 );
@@ -242,8 +265,8 @@ export const EnableColumnVirtualizationShortColumns = () => (
   <MantineReactTable
     columns={longColumns.slice(0, 3)}
     data={longData.slice(0, 10)}
-    enableRowNumbers
     enableColumnVirtualization
+    enableRowNumbers
   />
 );
 
@@ -251,24 +274,24 @@ export const EnableColumnVirtualizationWithFooter = () => (
   <MantineReactTable
     columns={[
       {
-        header: 'First Name',
-        footer: 'First Name',
         accessorKey: 'firstName',
+        footer: 'First Name',
+        header: 'First Name',
       },
       {
-        header: 'Middle Name',
-        footer: 'Middle Name',
         accessorKey: 'middleName',
+        footer: 'Middle Name',
+        header: 'Middle Name',
       },
       {
-        header: 'Last Name',
-        footer: 'Last Name',
         accessorKey: 'lastName',
+        footer: 'Last Name',
+        header: 'Last Name',
       },
     ]}
     data={longData.slice(0, 15)}
-    enableRowNumbers
     enableColumnVirtualization
+    enableRowNumbers
   />
 );
 
@@ -276,24 +299,24 @@ export const EnableColumnVirtualizationStickyFooter = () => (
   <MantineReactTable
     columns={[
       {
-        header: 'First Name',
-        footer: 'First Name',
         accessorKey: 'firstName',
+        footer: 'First Name',
+        header: 'First Name',
       },
       {
-        header: 'Middle Name',
-        footer: 'Middle Name',
         accessorKey: 'middleName',
+        footer: 'Middle Name',
+        header: 'Middle Name',
       },
       {
-        header: 'Last Name',
-        footer: 'Last Name',
         accessorKey: 'lastName',
+        footer: 'Last Name',
+        header: 'Last Name',
       },
     ]}
     data={longData.slice(0, 50)}
-    enableRowNumbers
     enableColumnVirtualization
+    enableRowNumbers
     enableStickyFooter
   />
 );
@@ -316,10 +339,10 @@ export const RowAndColumnVirtualizationWithFeatures = () => (
     data={longData}
     enableBottomToolbar={false}
     enableColumnOrdering
+    enableColumnPinning
     enableColumnResizing
     enableColumnVirtualization
     enablePagination={false}
-    enablePinning
     enableRowNumbers
     enableRowSelection
     enableRowVirtualization
@@ -344,13 +367,29 @@ export const MaxVirtualization = () => (
     columns={fakeColumns}
     data={fakeData}
     enableBottomToolbar={false}
+    enableColumnPinning
     enableColumnResizing
     enableColumnVirtualization
     enablePagination={false}
-    enablePinning
     enableRowNumbers
     enableRowVirtualization
-    mantineTableContainerProps={{ style: { maxHeight: 500 } }}
     mantinePaperProps={{ style: { margin: 'auto', maxWidth: 1000 } }}
+    mantineTableContainerProps={{ style: { maxHeight: 500 } }}
+  />
+);
+
+export const EmptyDataVirtualization = () => (
+  <MantineReactTable
+    columns={fakeColumns}
+    data={[]}
+    enableBottomToolbar={false}
+    enableColumnPinning
+    enableColumnResizing
+    enableColumnVirtualization
+    enablePagination={false}
+    enableRowNumbers
+    enableRowVirtualization
+    mantinePaperProps={{ style: { margin: 'auto', maxWidth: 1000 } }}
+    mantineTableContainerProps={{ style: { maxHeight: 500 } }}
   />
 );

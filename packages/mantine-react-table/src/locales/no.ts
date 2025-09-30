@@ -1,4 +1,4 @@
-import { type MRT_Localization } from '../types';
+import { type MRT_Localization } from '..';
 
 export const MRT_Localization_NO: MRT_Localization = {
   cancel: 'Avbryt',
@@ -8,8 +8,10 @@ export const MRT_Localization_NO: MRT_Localization = {
   changeSearchMode: 'Endre søkemodus',
   clearFilter: 'Tøm filter',
   clearSearch: 'Tøm søk',
+  clearSelection: 'Tøm valg',
   clearSort: 'Tøm sortering',
   clickToCopy: 'Klikk for å kopiere',
+  copy: 'Kopier',
   collapse: 'Kollaps',
   collapseAll: 'Kollapse alle',
   columnActions: 'Kolonnehandlinger',

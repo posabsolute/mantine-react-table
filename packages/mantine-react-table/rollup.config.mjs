@@ -1,11 +1,11 @@
+import pkg from './package.json' assert { type: 'json' };
+
+import typescript from '@rollup/plugin-typescript';
 import copy from 'rollup-plugin-copy';
 import del from 'rollup-plugin-delete';
 import dts from 'rollup-plugin-dts';
 import external from 'rollup-plugin-peer-deps-external';
-import resolve from '@rollup/plugin-node-resolve';
-import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
-import { babel } from '@rollup/plugin-babel';
 
 export default [
   {
@@ -24,54 +24,42 @@ export default [
     input: './src/index.ts',
     output: [
       {
-        file: './dist/cjs/index.js',
+        file: `./${pkg.main}`,
         format: 'cjs',
         sourcemap: true,
       },
       {
-        file: './dist/esm/mantine-react-table.esm.js',
+        file: `./${pkg.module}`,
         format: 'esm',
         sourcemap: true,
       },
     ],
     plugins: [
-      babel({
-        babelHelpers: 'bundled',
-        exclude: 'node_modules/**',
-        presets: ['@babel/preset-react'],
-      }),
       external(),
-      resolve(),
       typescript({
         rootDir: './src',
       }),
       postcss({
         extract: true,
+        minimize: false,
         modules: true,
-        minimize: true,
       }),
     ],
   },
   {
-    input: './dist/esm/types/index.d.ts',
+    input: './dist/types/index.d.ts',
     output: [
-      {
-        file: './dist/index.d.ts',
-        format: 'esm',
-      },
+      { file: `./dist/index.d.cts`, format: 'cjs' },
+      { file: './dist/index.esm.d.mts', format: 'esm' },
     ],
     plugins: [
       copy({
-        targets: [
-          { src: 'dist/cjs/index.css', dest: './', rename: 'styles.css' },
-        ],
-        verbose: true,
         hook: 'buildStart',
+        targets: [{ dest: './', rename: 'styles.css', src: 'dist/index.css' }],
       }),
       del({
-        targets: ['dist/cjs/index.css', 'dist/esm/mantine-react-table.esm.css'],
-        verbose: true,
         hook: 'buildEnd',
+        targets: ['dist/index.css', 'dist/index.esm.css', 'dist/types'],
       }),
       dts(),
     ],

@@ -7,8 +7,8 @@ import {
 } from 'mantine-react-table';
 import { Anchor, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { SampleCodeSnippet } from '../mdx/SampleCodeSnippet';
 import { type StateOption, stateOptions } from './stateOptions';
+import { InlineCodeHighlight } from '@mantine/code-highlight';
 
 interface Props {
   onlyOptions?: Set<keyof MRT_TableState<StateOption>>;
@@ -34,9 +34,9 @@ const StateOptionsTable = ({ onlyOptions }: Props) => {
           header: 'Type',
           enableGlobalFilter: false,
           Cell: ({ cell }) => (
-            <SampleCodeSnippet
+            <InlineCodeHighlight
+              bg="transparent"
               language="typescript"
-              withCopyButton={false}
               code={cell.getValue<string>()}
             />
           ),
@@ -46,9 +46,9 @@ const StateOptionsTable = ({ onlyOptions }: Props) => {
           enableGlobalFilter: false,
           header: 'Default Value',
           Cell: ({ cell }) => (
-            <SampleCodeSnippet
+            <InlineCodeHighlight
+              bg="transparent"
               language="typescript"
-              withCopyButton={false}
               code={cell.getValue<string>()}
             />
           ),
@@ -121,7 +121,7 @@ const StateOptionsTable = ({ onlyOptions }: Props) => {
       enableColumnActions={!onlyOptions}
       enableColumnFilterModes
       enablePagination={false}
-      enablePinning
+      enableColumnPinning
       enableRowNumbers
       enableBottomToolbar={false}
       enableTopToolbar={!onlyOptions}
@@ -148,7 +148,7 @@ const StateOptionsTable = ({ onlyOptions }: Props) => {
           {row.original.description || 'No Description Provided... Yet...'}
         </Text>
       )}
-      rowNumberMode="static"
+      rowNumberDisplayMode="static"
       onColumnPinningChange={setColumnPinning}
       state={{ columnPinning }}
     />

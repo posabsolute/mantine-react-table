@@ -217,6 +217,16 @@ export const tableOptions: TableOption[] = [
     type: "'modal' | 'row' | 'cell' | 'table' | 'custom'",
   },
   {
+    tableOption: 'enableBatchRowSelection',
+    defaultValue: 'true',
+    description: '',
+    link: '/docs/guides/row-selection#batch-row-selection',
+    linkText: 'MRT Row Selection Docs',
+    required: false,
+    source: 'MRT',
+    type: 'boolean',
+  },
+  {
     tableOption: 'enableBottomToolbar',
     defaultValue: 'true',
     description: '',
@@ -480,7 +490,7 @@ export const tableOptions: TableOption[] = [
     type: 'boolean',
   },
   {
-    tableOption: 'enablePinning',
+    tableOption: 'enableColumnPinning',
     defaultValue: '',
     description: '',
     link: '',
@@ -708,7 +718,7 @@ export const tableOptions: TableOption[] = [
     linkText: '',
     required: false,
     source: '',
-    type: '(column: Column<TData, unknown>) => boolean',
+    type: '(column: Column<TData, MRT_CellValue>) => boolean',
   },
   {
     tableOption: 'getCoreRowModel',
@@ -1168,7 +1178,7 @@ export const tableOptions: TableOption[] = [
     linkText: 'Mantine Box Docs',
     required: false,
     source: 'Mantine',
-    type: 'BoxProps | ({ isDetailPanel, row, staticRowIndex, table }) => BoxProps',
+    type: 'BoxProps | ({ isDetailPanel, row, table }) => BoxProps',
   },
   {
     tableOption: 'mantineTableContainerProps',
@@ -1312,8 +1322,9 @@ export const tableOptions: TableOption[] = [
   },
   {
     tableOption: 'mantineFilterMultiSelectProps',
-    defaultValue: '',
-    description: '',
+    defaultValue: '{ clearable: true }',
+    description:
+      'If using this property, make sure to pass clearable true otherwise the clear button will not work.',
     link: 'https://mantine.dev/core/multi-select/?t=props',
     linkText: 'Mantine MultiSelect Docs',
     required: false,
@@ -2027,7 +2038,7 @@ export const tableOptions: TableOption[] = [
     type: 'number',
   },
   {
-    tableOption: 'rowNumberMode',
+    tableOption: 'rowNumberDisplayMode',
     defaultValue: "'static'",
     description: '',
     link: '',

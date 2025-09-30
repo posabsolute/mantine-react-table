@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Anchor, Box, Button, Paper, Stack, Text, Title } from '@mantine/core';
-import { IconChevronRight } from '@tabler/icons-react';
+import { Alert, Anchor, Box, Button, Stack, Text, Title } from '@mantine/core';
+import { IconChevronRight, IconInfoCircle } from '@tabler/icons-react';
 import { HomeCards } from '../components/mdx/HomeCards';
 import { LinkCards } from '../components/mdx/LinkCards';
 import { StatBadges } from '../components/mdx/StatBadges';
@@ -15,6 +15,9 @@ import classes from './index.module.css';
 const HomePage = () => {
   return (
     <Stack className={classes.wrapper}>
+      <Alert variant="light" color="blue" icon={<IconInfoCircle />}>
+        Mantine React Table V2 is now in beta. 🎉
+      </Alert>
       <Title className={classes.title} order={1}>
         Welcome To
         <br />

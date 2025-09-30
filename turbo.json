@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": [
         "^build"
@@ -36,6 +36,7 @@
     },
     "lib:build": {
       "outputs": [
+        "styles.css",
         "dist/**",
         "locales/**"
       ]
@@ -45,8 +46,9 @@
         "locales/**"
       ]
     },
-    "lib:build-no-locales": {
+    "lib:build-lib": {
       "outputs": [
+        "styles.css",
         "dist/**"
       ]
     },

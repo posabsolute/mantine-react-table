@@ -1,7 +1,9 @@
-import { type Meta } from '@storybook/react';
+import { Menu } from '@mantine/core';
+
 import { MantineReactTable, type MRT_ColumnDef } from '../../src';
+
 import { faker } from '@faker-js/faker';
-import { Divider, Menu } from '@mantine/core';
+import { type Meta } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Features/Column Action Examples',
@@ -10,42 +12,42 @@ const meta: Meta = {
 export default meta;
 
 interface Row {
+  address: string;
   firstName: string;
   lastName: string;
-  address: string;
-  state: string;
   phoneNumber: string;
+  state: string;
 }
 
 const columns: MRT_ColumnDef<Row>[] = [
   {
-    header: 'First Name',
     accessorKey: 'firstName',
+    header: 'First Name',
   },
   {
-    header: 'Last Name',
     accessorKey: 'lastName',
+    header: 'Last Name',
   },
   {
-    header: 'Address',
     accessorKey: 'address',
+    header: 'Address',
   },
   {
-    header: 'State',
     accessorKey: 'state',
+    header: 'State',
   },
   {
-    header: 'Phone Number',
     accessorKey: 'phoneNumber',
+    header: 'Phone Number',
   },
 ];
 
 const data: Row[] = [...Array(100)].map(() => ({
+  address: faker.location.streetAddress(),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
-  address: faker.location.streetAddress(),
-  state: faker.location.state(),
   phoneNumber: faker.phone.number(),
+  state: faker.location.state(),
 }));
 
 export const ColumnActionsEnabledDefault = () => (
@@ -64,27 +66,27 @@ export const ColumnActionsDisabledPerColumn = () => (
   <MantineReactTable
     columns={[
       {
-        header: 'First Name',
         accessorKey: 'firstName',
+        header: 'First Name',
       },
       {
-        header: 'Last Name',
         accessorKey: 'lastName',
+        header: 'Last Name',
       },
       {
-        header: 'Address',
         accessorKey: 'address',
         enableColumnActions: false,
+        header: 'Address',
       },
       {
-        header: 'State',
         accessorKey: 'state',
         enableColumnActions: false,
+        header: 'State',
       },
       {
-        header: 'Phone Number',
         accessorKey: 'phoneNumber',
         enableColumnActions: false,
+        header: 'Phone Number',
       },
     ]}
     data={data}
@@ -95,27 +97,27 @@ export const ColumnActionsEnabledPerColumn = () => (
   <MantineReactTable
     columns={[
       {
-        header: 'First Name',
         accessorKey: 'firstName',
+        header: 'First Name',
       },
       {
-        header: 'Last Name',
         accessorKey: 'lastName',
+        header: 'Last Name',
       },
       {
-        header: 'Address',
         accessorKey: 'address',
         enableColumnActions: true,
+        header: 'Address',
       },
       {
-        header: 'State',
         accessorKey: 'state',
         enableColumnActions: true,
+        header: 'State',
       },
       {
-        header: 'Phone Number',
         accessorKey: 'phoneNumber',
         enableColumnActions: true,
+        header: 'Phone Number',
       },
     ]}
     data={data}
@@ -140,8 +142,8 @@ export const CustomColumnActionsPerColumn = () => (
   <MantineReactTable
     columns={[
       {
-        header: 'First Name',
         accessorKey: 'firstName',
+        header: 'First Name',
         renderColumnActionsMenuItems: () => (
           <>
             <Menu.Item>Item 1</Menu.Item>
@@ -150,8 +152,8 @@ export const CustomColumnActionsPerColumn = () => (
         ),
       },
       {
-        header: 'Last Name',
         accessorKey: 'lastName',
+        header: 'Last Name',
         renderColumnActionsMenuItems: () => (
           <>
             <Menu.Item>Item 2</Menu.Item>
@@ -160,27 +162,27 @@ export const CustomColumnActionsPerColumn = () => (
         ),
       },
       {
-        header: 'Address',
         accessorKey: 'address',
         enableColumnActions: true,
+        header: 'Address',
         renderColumnActionsMenuItems: ({ internalColumnMenuItems }) => (
           <>
             {internalColumnMenuItems}
-            <Divider />
+            <Menu.Divider />
             <Menu.Item>Item 1</Menu.Item>
             <Menu.Item>Item 2</Menu.Item>
           </>
         ),
       },
       {
-        header: 'State',
         accessorKey: 'state',
         enableColumnActions: true,
+        header: 'State',
       },
       {
-        header: 'Phone Number',
         accessorKey: 'phoneNumber',
         enableColumnActions: true,
+        header: 'Phone Number',
       },
     ]}
     data={data}

@@ -134,7 +134,18 @@ export const columnOptions: ColumnOption[] = [
     linkText: 'MRT Editing Docs',
     source: 'MRT',
     required: false,
-    type: "'select' | 'text'",
+    type: "'select' | 'text' | 'multi-select'",
+  },
+  {
+    columnOption: 'enableCellHoverReveal',
+    defaultValue: '',
+    description:
+      "Enable or disable cell hover reveal for this column. There are some limitations to this feature. Passing props through mantineTableBodyCellProps might not work as expected. For example, passing align:'right' to mantineTableBodyCellProps would not be applied.",
+    link: '',
+    linkText: '',
+    source: 'MRT',
+    required: false,
+    type: 'boolean',
   },
   {
     columnOption: 'enableClickToCopy',
@@ -306,6 +317,16 @@ export const columnOptions: ColumnOption[] = [
     source: 'MRT',
     required: false,
     type: 'MRT_FilterFn',
+  },
+  {
+    columnOption: 'filterTooltipValueFn',
+    defaultValue: '',
+    description: 'Specify to transform tooltip values to a readable format.',
+    link: '',
+    linkText: '',
+    source: 'MRT',
+    required: false,
+    type: 'MRT_FilterTooltipValueFn',
   },
   {
     columnOption: 'filterVariant',

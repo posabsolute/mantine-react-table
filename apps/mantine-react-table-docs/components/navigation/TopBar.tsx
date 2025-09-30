@@ -12,6 +12,7 @@ import {
   useMantineTheme,
   AppShell,
   useMantineColorScheme,
+  Select,
 } from '@mantine/core';
 import {
   IconBrandGithub,
@@ -86,7 +87,8 @@ export const TopBar = ({ navOpen, setNavOpen }: Props) => {
           display: 'flex',
           justifyContent: 'space-between',
           padding: '4px 20px',
-          zIndex: 5,
+          zIndex: 101,
+          opacity: 0.97,
         }}
       >
         <Flex align="center" gap="md">
@@ -120,6 +122,19 @@ export const TopBar = ({ navOpen, setNavOpen }: Props) => {
               {!isMobile && 'Mantine React Table'}
             </Text>
           </Link>
+          <Select
+            data={[
+              { value: 'www.mantine-react-table.com', label: 'V1' },
+              { value: 'v2.mantine-react-table.com', label: 'V2' },
+            ]}
+            onChange={(value) =>
+              (location.href = `https://${value}/${pathname}`)
+            }
+            onClick={() => plausible('version-select')}
+            value="v2.mantine-react-table.com"
+            size="xs"
+            maw="60px"
+          />
         </Flex>
         <Box
           onClick={() => plausible('open-search')}

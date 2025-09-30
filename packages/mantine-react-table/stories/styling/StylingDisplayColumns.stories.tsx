@@ -1,7 +1,9 @@
-import { type Meta } from '@storybook/react';
-import { MantineReactTable, type MRT_ColumnDef } from '../../src';
-import { faker } from '@faker-js/faker';
 import { Button } from '@mantine/core';
+
+import { MantineReactTable, type MRT_ColumnDef } from '../../src';
+
+import { faker } from '@faker-js/faker';
+import { type Meta } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Styling/Styling Display Columns',
@@ -11,27 +13,27 @@ export default meta;
 
 const columns: MRT_ColumnDef<(typeof data)[0]>[] = [
   {
-    header: 'First Name',
     accessorKey: 'firstName',
+    header: 'First Name',
   },
   {
-    header: 'Last Name',
     accessorKey: 'lastName',
+    header: 'Last Name',
   },
   {
-    header: 'Age',
     accessorKey: 'age',
+    header: 'Age',
   },
   {
-    header: 'Address',
     accessorKey: 'address',
+    header: 'Address',
   },
 ];
 const data = [...Array(21)].map(() => ({
+  address: faker.location.streetAddress(),
+  age: faker.number.int(80),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
-  age: faker.number.int(80),
-  address: faker.location.streetAddress(),
 }));
 
 export const CustomizeDisplayColumns = () => (
@@ -49,9 +51,9 @@ export const CustomizeDisplayColumns = () => (
         size: 160,
       },
       'mrt-row-expand': {
-        size: 70,
         enableColumnActions: true,
         enableResizing: true,
+        size: 70,
       },
       'mrt-row-numbers': {
         enableColumnOrdering: true,
@@ -65,27 +67,27 @@ export const CustomizeDisplayColumns = () => (
     }}
     enableColumnOrdering
     enableColumnResizing
+    enableRowActions
     enableRowNumbers
     enableRowSelection
-    enableRowActions
     renderDetailPanel={() => <div>Detail Panel</div>}
     renderRowActions={({ row }) => (
       <div style={{ display: 'flex', flexWrap: 'nowrap', gap: '8px' }}>
         <Button
-          variant="filled"
           color="lightblue"
           onClick={() => {
             console.info('View Profile', row);
           }}
+          variant="filled"
         >
           View
         </Button>
         <Button
-          variant="filled"
           color="error"
           onClick={() => {
             console.info('Remove', row);
           }}
+          variant="filled"
         >
           Remove
         </Button>

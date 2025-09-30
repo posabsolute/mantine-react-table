@@ -1,8 +1,10 @@
-import { type Meta } from '@storybook/react';
-import { MantineReactTable, type MRT_ColumnDef } from '../../src';
-import { faker } from '@faker-js/faker';
 import { Button, Menu } from '@mantine/core';
-import { IconShare, IconUser, IconTrash } from '@tabler/icons-react';
+
+import { MantineReactTable, type MRT_ColumnDef } from '../../src';
+
+import { faker } from '@faker-js/faker';
+import { type Meta } from '@storybook/react';
+import { IconShare, IconTrash, IconUser } from '@tabler/icons-react';
 
 const meta: Meta = {
   title: 'Features/Row Actions Examples',
@@ -12,33 +14,33 @@ export default meta;
 
 const columns: MRT_ColumnDef<(typeof data)[0]>[] = [
   {
-    header: 'First Name',
     accessorKey: 'firstName',
+    header: 'First Name',
   },
   {
-    header: 'Last Name',
     accessorKey: 'lastName',
+    header: 'Last Name',
   },
   {
-    header: 'Address',
     accessorKey: 'address',
+    header: 'Address',
   },
   {
-    header: 'State',
     accessorKey: 'state',
+    header: 'State',
   },
   {
-    header: 'Phone Number',
     accessorKey: 'phoneNumber',
+    header: 'Phone Number',
   },
 ];
 
 const data = [...Array(100)].map(() => ({
+  address: faker.location.streetAddress(),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
-  address: faker.location.streetAddress(),
-  state: faker.location.state(),
   phoneNumber: faker.phone.number(),
+  state: faker.location.state(),
 }));
 
 export const RowActionsEnabled = () => (
@@ -48,8 +50,8 @@ export const RowActionsEnabled = () => (
     enableRowActions
     renderRowActionMenuItems={({ row }) => [
       <Menu.Item
-        leftSection={<IconUser />}
         key={1}
+        leftSection={<IconUser />}
         onClick={() => {
           console.info('View Profile', row);
         }}
@@ -57,8 +59,8 @@ export const RowActionsEnabled = () => (
         View Profile
       </Menu.Item>,
       <Menu.Item
-        leftSection={<IconTrash />}
         key={2}
+        leftSection={<IconTrash />}
         onClick={() => {
           console.info('Remove', row);
         }}
@@ -66,8 +68,8 @@ export const RowActionsEnabled = () => (
         Remove
       </Menu.Item>,
       <Menu.Item
-        leftSection={<IconShare />}
         key={3}
+        leftSection={<IconShare />}
         onClick={() => {
           console.info('Share', row);
         }}
@@ -82,12 +84,12 @@ export const RowActionsAndEditingEnabled = () => (
   <MantineReactTable
     columns={columns}
     data={data}
-    enableRowActions
     enableEditing
+    enableRowActions
     renderRowActionMenuItems={({ row }) => [
       <Menu.Item
-        leftSection={<IconUser />}
         key={1}
+        leftSection={<IconUser />}
         onClick={() => {
           console.info('View Profile', row);
         }}
@@ -95,8 +97,8 @@ export const RowActionsAndEditingEnabled = () => (
         View Profile
       </Menu.Item>,
       <Menu.Item
-        leftSection={<IconTrash />}
         key={2}
+        leftSection={<IconTrash />}
         onClick={() => {
           console.info('Remove', row);
         }}
@@ -104,8 +106,8 @@ export const RowActionsAndEditingEnabled = () => (
         Remove
       </Menu.Item>,
       <Menu.Item
-        leftSection={<IconShare />}
         key={3}
+        leftSection={<IconShare />}
         onClick={() => {
           console.info('Share', row);
         }}
@@ -125,8 +127,8 @@ export const RowActionsLastColumn = () => (
     positionActionsColumn="last"
     renderRowActionMenuItems={({ row }) => [
       <Menu.Item
-        leftSection={<IconUser />}
         key={1}
+        leftSection={<IconUser />}
         onClick={() => {
           console.info('View Profile', row);
         }}
@@ -134,8 +136,8 @@ export const RowActionsLastColumn = () => (
         View Profile
       </Menu.Item>,
       <Menu.Item
-        leftSection={<IconTrash />}
         key={2}
+        leftSection={<IconTrash />}
         onClick={() => {
           console.info('Remove', row);
         }}
@@ -143,8 +145,8 @@ export const RowActionsLastColumn = () => (
         Remove
       </Menu.Item>,
       <Menu.Item
-        leftSection={<IconShare />}
         key={3}
+        leftSection={<IconShare />}
         onClick={() => {
           console.info('Share', row);
         }}
@@ -163,20 +165,20 @@ export const CustomRowActionButtons = () => (
     renderRowActions={({ row }) => (
       <div style={{ display: 'flex', flexWrap: 'nowrap', gap: '8px' }}>
         <Button
-          variant="filled"
           color="lightblue"
           onClick={() => {
             console.info('View Profile', row);
           }}
+          variant="filled"
         >
           View
         </Button>
         <Button
-          variant="filled"
           color="error"
           onClick={() => {
             console.info('Remove', row);
           }}
+          variant="filled"
         >
           Remove
         </Button>
@@ -194,20 +196,20 @@ export const CustomRowActionButtonsLastColumn = () => (
     renderRowActions={({ row }) => (
       <div style={{ display: 'flex', flexWrap: 'nowrap', gap: '8px' }}>
         <Button
-          variant="filled"
           color="lightblue"
           onClick={() => {
             console.info('View Profile', row);
           }}
+          variant="filled"
         >
           View
         </Button>
         <Button
-          variant="filled"
           color="error"
           onClick={() => {
             console.info('Remove', row);
           }}
+          variant="filled"
         >
           Remove
         </Button>
@@ -224,8 +226,8 @@ export const RowActionsWithVirtualization = () => (
     enableRowVirtualization
     renderRowActionMenuItems={({ row }) => [
       <Menu.Item
-        leftSection={<IconUser />}
         key={1}
+        leftSection={<IconUser />}
         onClick={() => {
           console.info('View Profile', row);
         }}
@@ -233,8 +235,8 @@ export const RowActionsWithVirtualization = () => (
         View Profile
       </Menu.Item>,
       <Menu.Item
-        leftSection={<IconTrash />}
         key={2}
+        leftSection={<IconTrash />}
         onClick={() => {
           console.info('Remove', row);
         }}
@@ -242,8 +244,8 @@ export const RowActionsWithVirtualization = () => (
         Remove
       </Menu.Item>,
       <Menu.Item
-        leftSection={<IconShare />}
         key={3}
+        leftSection={<IconShare />}
         onClick={() => {
           console.info('Share', row);
         }}
@@ -263,8 +265,8 @@ export const RowActionsLastWithColumnOrdering = () => (
     positionActionsColumn="last"
     renderRowActionMenuItems={({ row }) => [
       <Menu.Item
-        leftSection={<IconUser />}
         key={1}
+        leftSection={<IconUser />}
         onClick={() => {
           console.info('View Profile', row);
         }}
@@ -272,8 +274,8 @@ export const RowActionsLastWithColumnOrdering = () => (
         View Profile
       </Menu.Item>,
       <Menu.Item
-        leftSection={<IconTrash />}
         key={2}
+        leftSection={<IconTrash />}
         onClick={() => {
           console.info('Remove', row);
         }}
@@ -281,8 +283,8 @@ export const RowActionsLastWithColumnOrdering = () => (
         Remove
       </Menu.Item>,
       <Menu.Item
-        leftSection={<IconShare />}
         key={3}
+        leftSection={<IconShare />}
         onClick={() => {
           console.info('Share', row);
         }}

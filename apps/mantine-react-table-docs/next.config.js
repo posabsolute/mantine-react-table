@@ -10,8 +10,43 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/docs/guides/customize-components',
+        destination: '/docs/guides/customize-component-styles',
+        permanent: true,
+      },
+      {
+        source: '/docs/guides/table-event-listeners',
+        destination: '/docs/guides/event-listeners',
+        permanent: true,
+      },
+      {
+        source: '/docs/guides/sticky-header-footer',
+        destination: '/docs/guides/sticky-header',
+        permanent: true,
+      },
+      {
+        source: '/docs/guides/column-actions-menu',
+        destination: '/docs/guides/column-actions',
+        permanent: true,
+      },
+      {
+        source: '/docs/guides/memoize-components',
+        destination: '/docs/guides/memoization',
+        permanent: true,
+      },
+      {
+        source: '/docs/guides/aggregation-and-grouping',
+        destination: '/docs/guides/column-grouping',
+        permanent: true,
+      },
+      {
+        source: '/docs/guides/typescript',
+        destination: '/docs/guides/best-practices',
+        permanent: true,
+      },
+      {
         source: '/docs/getting-started/typescript',
-        destination: '/docs/guides/typescript',
+        destination: '/docs/guides/best-practices',
         permanent: true,
       },
       {

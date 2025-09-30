@@ -9,6 +9,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+  align-items: center;
 }
 
 .wrapper2 {
@@ -38,5 +39,5 @@
 }
 
 .colorSchemeSelect {
-  max-width: 90px;
+  max-width: 110px;
 }

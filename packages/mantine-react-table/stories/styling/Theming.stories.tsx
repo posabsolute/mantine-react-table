@@ -1,7 +1,9 @@
-import { type Meta } from '@storybook/react';
-import { MantineReactTable, type MRT_ColumnDef } from '../../src';
-import { faker } from '@faker-js/faker';
 import { MantineProvider } from '@mantine/core';
+
+import { MantineReactTable, type MRT_ColumnDef } from '../../src';
+
+import { faker } from '@faker-js/faker';
+import { type Meta } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Styling/Theming',
@@ -11,28 +13,28 @@ export default meta;
 
 const columns: MRT_ColumnDef<(typeof data)[0]>[] = [
   {
-    header: 'First Name',
     accessorKey: 'firstName',
+    header: 'First Name',
   },
   {
-    header: 'Last Name',
     accessorKey: 'lastName',
+    header: 'Last Name',
   },
   {
-    header: 'Age',
     accessorKey: 'age',
+    header: 'Age',
   },
   {
-    header: 'Address',
     accessorKey: 'address',
+    header: 'Address',
   },
 ];
 
 const data = [...Array(21)].map(() => ({
+  address: faker.location.streetAddress(),
+  age: faker.number.int(80),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
-  age: faker.number.int(80),
-  address: faker.location.streetAddress(),
 }));
 
 export const DefaultTheme = () => (
@@ -40,40 +42,54 @@ export const DefaultTheme = () => (
 );
 
 export const CustomLightTheme = () => {
-  // const theme = createTheme({
-  //   palette: {
-  //     primary: {
-  //       main: '#ff9800',
-  //     },
-  //     background: {
-  //       default: '#ffffef',
-  //     },
-  //     secondary: {
-  //       main: '#00bcd4',
-  //     },
-  //   },
-  // });
   return (
-    <MantineProvider theme={{ primaryColor: '#ff9800' }}>
+    <MantineProvider
+      theme={{
+        colors: {
+          'bright-pink': [
+            '#F0BBDD',
+            '#ED9BCF',
+            '#EC7CC3',
+            '#ED5DB8',
+            '#F13EAF',
+            '#F71FA7',
+            '#FF00A1',
+            '#E00890',
+            '#C50E82',
+            '#AD1374',
+          ],
+        },
+        primaryColor: 'bright-pink',
+        primaryShade: { dark: 7, light: 6 },
+      }}
+    >
       <MantineReactTable columns={columns} data={data} enableRowSelection />
     </MantineProvider>
   );
 };
 
 export const CustomDarkTheme = () => {
-  // const theme = createTheme({
-  //   palette: {
-  //     mode: 'dark',
-  //     primary: {
-  //       main: '#81980f',
-  //     },
-  //     secondary: {
-  //       main: '#00bcd4',
-  //     },
-  //   },
-  // });
   return (
-    <MantineProvider theme={{ colorScheme: 'dark', primaryColor: '#81980f' }}>
+    <MantineProvider
+      theme={{
+        colors: {
+          'bright-pink': [
+            '#F0BBDD',
+            '#ED9BCF',
+            '#EC7CC3',
+            '#ED5DB8',
+            '#F13EAF',
+            '#F71FA7',
+            '#FF00A1',
+            '#E00890',
+            '#C50E82',
+            '#AD1374',
+          ],
+        },
+        primaryColor: 'bright-pink',
+        primaryShade: { dark: 7, light: 6 },
+      }}
+    >
       <MantineReactTable columns={columns} data={data} enableRowSelection />
     </MantineProvider>
   );

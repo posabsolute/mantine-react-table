@@ -1,6 +1,7 @@
-import { type Meta } from '@storybook/react';
 import { MantineReactTable, type MRT_ColumnDef } from '../../src';
+
 import { faker } from '@faker-js/faker';
+import { type Meta } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Features/Column Pinning Examples',
@@ -10,49 +11,49 @@ export default meta;
 
 const columns: MRT_ColumnDef<(typeof data)[0]>[] = [
   {
-    header: 'First Name',
     accessorKey: 'firstName',
+    header: 'First Name',
   },
   {
-    header: 'Last Name',
     accessorKey: 'lastName',
+    header: 'Last Name',
   },
   {
-    header: 'Email Address',
     accessorKey: 'email',
+    header: 'Email Address',
   },
   {
-    header: 'Address',
     accessorKey: 'address',
+    header: 'Address',
   },
   {
-    header: 'City',
     accessorKey: 'city',
+    header: 'City',
   },
   {
-    header: 'State',
     accessorKey: 'state',
+    header: 'State',
   },
 ];
 
 const data = [...Array(100)].map(() => ({
-  firstName: faker.person.firstName(),
-  lastName: faker.person.lastName(),
-  email: faker.internet.email(),
   address: faker.location.streetAddress(),
   city: faker.location.city(),
+  email: faker.internet.email(),
+  firstName: faker.person.firstName(),
+  lastName: faker.person.lastName(),
   state: faker.location.state(),
 }));
 
 export const ColumnPinningEnabled = () => (
-  <MantineReactTable columns={columns} data={data} enablePinning />
+  <MantineReactTable columns={columns} data={data} enableColumnPinning />
 );
 
 export const ColumnPinningInitial = () => (
   <MantineReactTable
     columns={columns}
     data={data}
-    enablePinning
+    enableColumnPinning
     initialState={{ columnPinning: { left: ['email'], right: ['state'] } }}
   />
 );
@@ -61,33 +62,33 @@ export const ColumnPinningDisabledPerColumn = () => (
   <MantineReactTable
     columns={[
       {
-        header: 'First Name',
         accessorKey: 'firstName',
-        enablePinning: false,
+        enableColumnPinning: false,
+        header: 'First Name',
       },
       {
-        header: 'Last Name',
         accessorKey: 'lastName',
+        header: 'Last Name',
       },
       {
-        header: 'Email Address',
         accessorKey: 'email',
+        header: 'Email Address',
       },
       {
-        header: 'Address',
         accessorKey: 'address',
+        header: 'Address',
       },
       {
-        header: 'City',
         accessorKey: 'city',
+        header: 'City',
       },
       {
-        header: 'State',
         accessorKey: 'state',
+        header: 'State',
       },
     ]}
     data={data}
-    enablePinning
+    enableColumnPinning
   />
 );
 
@@ -95,7 +96,7 @@ export const ColumnPinningWithSelect = () => (
   <MantineReactTable
     columns={columns}
     data={data}
-    enablePinning
+    enableColumnPinning
     enableRowSelection
   />
 );
@@ -104,7 +105,7 @@ export const ColumnPinningWithDetailPanel = () => (
   <MantineReactTable
     columns={columns}
     data={data}
-    enablePinning
+    enableColumnPinning
     enableExpanding
     renderDetailPanel={({ row: _row }) => <h1>Hi</h1>}
   />

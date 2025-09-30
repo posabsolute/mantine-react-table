@@ -1,3 +1,8 @@
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css'; //if using mantine date picker features
+import 'mantine-react-table/styles.css'; //make sure MRT styles were imported in your app root (once)
+import classes from './CSS.module.css';
+import clsx from 'clsx';
 import { useMemo } from 'react';
 import {
   type MRT_ColumnDef,
@@ -44,21 +49,12 @@ export const Example = () => {
     enablePagination: false,
     enableSorting: false,
     mantineTableProps: {
+      className: clsx(classes.table),
       highlightOnHover: false,
+      striped: 'odd',
       withColumnBorders: true,
-      withTableBorder: colorScheme === 'light',
-      withRowBorders: colorScheme === 'light',
-      style: {
-        'thead > tr': {
-          backgroundColor: 'inherit',
-        },
-        'thead > tr > th': {
-          backgroundColor: 'inherit',
-        },
-        'tbody > tr > td': {
-          backgroundColor: 'inherit',
-        },
-      },
+      withRowBorders: true,
+      withTableBorder: true,
     },
   });
 

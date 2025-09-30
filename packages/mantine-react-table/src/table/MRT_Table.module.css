@@ -1,7 +1,0 @@
-.root-grid {
-  display: grid;
-}
-
-.root-semantic-not-resizing {
-  table-layout: fixed;
-}

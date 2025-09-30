@@ -1,6 +1,10 @@
 import { useMemo } from 'react';
-import { type Meta } from '@storybook/react';
+
+import { Menu } from '@mantine/core';
+
 import { MantineReactTable, type MRT_ColumnDef } from '../../src';
+
+import { type Meta } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Fixed Bugs/Loading Data',
@@ -9,12 +13,12 @@ const meta: Meta = {
 export default meta;
 
 type Person = {
+  address: string;
+  city: string;
   name: {
     firstName: string;
     lastName: string;
   };
-  address: string;
-  city: string;
   state: string;
 };
 
@@ -167,8 +171,8 @@ export const NestedLoadingDataWithInitialPage = () => {
       columns={columns}
       data={[]}
       state={{
-        pagination: { pageIndex: 2, pageSize: 5 },
         isLoading: true,
+        pagination: { pageIndex: 2, pageSize: 5 },
       }}
     />
   );
@@ -206,9 +210,53 @@ export const NestedLoadingDataWithInitialSort = () => {
       columns={columns}
       data={[]}
       state={{
-        sorting: [{ id: 'name.lastName', desc: false }],
         isLoading: true,
+        sorting: [{ desc: false, id: 'name.lastName' }],
       }}
+    />
+  );
+};
+
+export const EmptyDatasetWithLoadingState = () => {
+  const columns = useMemo<MRT_ColumnDef<Person>[]>(
+    () => [
+      {
+        accessorFn: (row) => row.name.firstName,
+        header: 'First Name',
+      },
+      {
+        accessorKey: 'name.lastName',
+        header: 'Last Name',
+      },
+      {
+        accessorKey: 'address',
+        header: 'Address',
+      },
+      {
+        accessorKey: 'city',
+        header: 'City',
+      },
+      {
+        accessorKey: 'state',
+        header: 'State',
+      },
+    ],
+    [],
+  );
+
+  return (
+    <MantineReactTable
+      columns={columns}
+      data={[]}
+      editDisplayMode="table"
+      enableEditing
+      enableRowActions
+      renderRowActionMenuItems={() => (
+        <>
+          <Menu.Item onClick={() => console.info('Delete')}>Delete</Menu.Item>
+        </>
+      )}
+      state={{ isLoading: true }}
     />
   );
 };

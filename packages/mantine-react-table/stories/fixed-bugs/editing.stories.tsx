@@ -1,7 +1,9 @@
-import { type Meta } from '@storybook/react';
-import { MantineReactTable, type MRT_ColumnDef } from '../../src';
-import { faker } from '@faker-js/faker';
 import { Menu } from '@mantine/core';
+
+import { MantineReactTable, type MRT_ColumnDef } from '../../src';
+
+import { faker } from '@faker-js/faker';
+import { type Meta } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Fixed Bugs/Editing',
@@ -10,10 +12,10 @@ const meta: Meta = {
 export default meta;
 
 type Person = {
-  firstName: string;
-  lastName: string;
   address: string;
   city: string;
+  firstName: string;
+  lastName: string;
   state: string;
 };
 
@@ -41,10 +43,10 @@ const columns: MRT_ColumnDef<Person>[] = [
 ];
 
 const data = [...Array(6)].map(() => ({
-  firstName: faker.person.firstName(),
-  lastName: faker.person.lastName(),
   address: faker.location.streetAddress(),
   city: faker.location.city(),
+  firstName: faker.person.firstName(),
+  lastName: faker.person.lastName(),
   state: faker.location.state(),
 }));
 

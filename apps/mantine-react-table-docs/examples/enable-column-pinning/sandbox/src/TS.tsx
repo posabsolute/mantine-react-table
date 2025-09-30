@@ -1,3 +1,6 @@
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css'; //if using mantine date picker features
+import 'mantine-react-table/styles.css'; //make sure MRT styles were imported in your app root (once)
 import { useMemo } from 'react';
 import { MantineReactTable, type MRT_ColumnDef } from 'mantine-react-table';
 import { data, type Person } from './makeData';
@@ -7,7 +10,7 @@ const Example = () => {
     () => [
       {
         accessorKey: 'id',
-        enablePinning: false, //disable column pinning for this column
+        enableColumnPinning: false, //disable column pinning for this column
         header: 'ID',
         size: 50,
       },
@@ -45,7 +48,7 @@ const Example = () => {
     <MantineReactTable
       columns={columns}
       data={data}
-      enablePinning
+      enableColumnPinning
       initialState={{ columnPinning: { left: ['state'], right: ['city'] } }}
     />
   );

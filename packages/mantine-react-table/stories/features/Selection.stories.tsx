@@ -1,12 +1,16 @@
 import { useState } from 'react';
-import { type Meta } from '@storybook/react';
-import {
-  MantineReactTable,
-  MRT_SelectCheckbox,
-  type MRT_ColumnDef,
-} from '../../src';
-import { faker } from '@faker-js/faker';
+
 import { Button, Flex } from '@mantine/core';
+
+import {
+  getMRT_RowSelectionHandler,
+  MantineReactTable,
+  type MRT_ColumnDef,
+  MRT_SelectCheckbox,
+} from '../../src';
+
+import { faker } from '@faker-js/faker';
+import { type Meta } from '@storybook/react';
 import { IconSend, IconTrash } from '@tabler/icons-react';
 
 const meta: Meta = {
@@ -17,31 +21,66 @@ export default meta;
 
 const columns: MRT_ColumnDef<(typeof data)[0]>[] = [
   {
-    header: 'First Name',
     accessorKey: 'firstName',
+    header: 'First Name',
   },
   {
-    header: 'Last Name',
     accessorKey: 'lastName',
+    header: 'Last Name',
   },
   {
-    header: 'Age',
     accessorKey: 'age',
+    header: 'Age',
   },
   {
-    header: 'Address',
     accessorKey: 'address',
+    header: 'Address',
   },
 ];
 const data = [...Array(15)].map(() => ({
+  address: faker.location.streetAddress(),
+  age: faker.number.int(80),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
-  age: faker.number.int(80),
-  address: faker.location.streetAddress(),
 }));
 
 export const SelectionEnabled = () => (
-  <MantineReactTable columns={columns} data={data} enableRowSelection />
+  <MantineReactTable
+    columns={columns}
+    data={data}
+    enableRowNumbers
+    enableRowSelection
+  />
+);
+
+export const SelectionEnabledGrid = () => (
+  <MantineReactTable
+    columns={columns}
+    data={data}
+    enableRowNumbers
+    enableRowSelection
+    layoutMode="grid"
+  />
+);
+
+export const SelectionEnabledGridNoGrow = () => (
+  <MantineReactTable
+    columns={columns}
+    data={data}
+    enableRowNumbers
+    enableRowSelection
+    layoutMode="grid-no-grow"
+  />
+);
+
+export const BatchSelectionDisabled = () => (
+  <MantineReactTable
+    columns={columns}
+    data={data}
+    enableBatchRowSelection={false}
+    enableRowNumbers
+    enableRowSelection
+  />
 );
 
 export const SelectionEnabledConditionally = () => (
@@ -52,15 +91,35 @@ export const SelectionEnabledConditionally = () => (
   />
 );
 
+export const SelectionEnabledConditionallyWithInitial = () => (
+  <MantineReactTable
+    columns={columns}
+    data={data}
+    enableRowSelection={(row) => row.original.age >= 21}
+    initialState={{
+      rowSelection: {
+        1: true,
+        2: true,
+        3: true,
+        4: true,
+        5: true,
+        6: true,
+      },
+    }}
+  />
+);
+
 export const SelectionEnabledWithRowClick = () => (
   <MantineReactTable
     columns={columns}
     data={data}
     enableRowSelection
-    mantineTableBodyRowProps={({ row }) => ({
-      onClick: row.getToggleSelectedHandler(),
+    mantineTableBodyRowProps={({ renderedRowIndex, row, table }) => ({
+      onClick: (event) =>
+        getMRT_RowSelectionHandler()({ event, renderedRowIndex, row, table }),
       style: {
         cursor: 'pointer',
+        userSelect: 'none',
       },
     })}
   />
@@ -134,8 +193,8 @@ export const SingleSelectionRadio = () => (
   <MantineReactTable
     columns={columns}
     data={data}
-    enableRowSelection
     enableMultiRowSelection={false}
+    enableRowSelection
   />
 );
 
@@ -143,8 +202,8 @@ export const SingleSelectionRadioWithRowClick = () => (
   <MantineReactTable
     columns={columns}
     data={data}
-    enableRowSelection
     enableMultiRowSelection={false}
+    enableRowSelection
     mantineTableBodyRowProps={({ row }) => ({
       onClick: row.getToggleSelectedHandler(),
       style: {
@@ -195,20 +254,20 @@ export const CustomAlertBannerHeadOverlay = () => (
     columns={columns}
     data={data}
     enableRowSelection
-    positionToolbarAlertBanner="head-overlay"
     mantineToolbarAlertBannerProps={{
       color: 'cyan',
     }}
+    positionToolbarAlertBanner="head-overlay"
     renderToolbarAlertBannerContent={({ selectedAlert, table }) => (
       <Flex justify="space-between">
-        <Flex p="6px" gap="xl">
-          <MRT_SelectCheckbox selectAll table={table} /> {selectedAlert}{' '}
+        <Flex gap="xl" p="6px">
+          <MRT_SelectCheckbox table={table} /> {selectedAlert}{' '}
         </Flex>
         <Flex gap="md">
-          <Button leftSection={<IconSend />} color="blue">
+          <Button color="blue" leftSection={<IconSend />}>
             Email Selected
           </Button>
-          <Button leftSection={<IconTrash />} color="red">
+          <Button color="red" leftSection={<IconTrash />}>
             Remove Selected
           </Button>
         </Flex>

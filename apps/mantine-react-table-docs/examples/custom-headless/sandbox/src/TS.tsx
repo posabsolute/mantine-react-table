@@ -1,3 +1,6 @@
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css'; //if using mantine date picker features
+import 'mantine-react-table/styles.css'; //make sure MRT styles were imported in your app root (once)
 import {
   flexRender,
   MRT_GlobalFilterTextInput,
@@ -5,6 +8,7 @@ import {
   MRT_ToolbarAlertBanner,
   type MRT_ColumnDef,
   useMantineReactTable,
+  MRT_TableBodyCellValue,
 } from 'mantine-react-table';
 import { Divider, Flex, Stack, Table, Title } from '@mantine/core';
 import { type Person, data } from './makeData';
@@ -73,12 +77,12 @@ const Example = () => {
         withColumnBorders
         m="0"
       >
-        {/* Use your own markup, customize however you want using the power of TanStack Table */}
-        <thead>
+        {/* Use your own markup or stock Mantine components, customize however you want using the power of TanStack Table */}
+        <Table.Thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            <Table.Tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id}>
+                <Table.Th key={header.id}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -86,25 +90,22 @@ const Example = () => {
                           header.column.columnDef.header,
                         header.getContext(),
                       )}
-                </th>
+                </Table.Th>
               ))}
-            </tr>
+            </Table.Tr>
           ))}
-        </thead>
-        <tbody>
+        </Table.Thead>
+        <Table.Tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <Table.Tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  {flexRender(
-                    cell.column.columnDef.Cell ?? cell.column.columnDef.cell,
-                    cell.getContext(),
-                  )}
-                </td>
+                <Table.Td key={cell.id}>
+                  <MRT_TableBodyCellValue cell={cell} table={table} />
+                </Table.Td>
               ))}
-            </tr>
+            </Table.Tr>
           ))}
-        </tbody>
+        </Table.Tbody>
       </Table>
       <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
     </Stack>

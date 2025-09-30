@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { type Meta } from '@storybook/react';
+
 import { MantineReactTable, type MRT_ColumnDef, type MRT_Row } from '../../src';
+
 import { faker } from '@faker-js/faker';
+import { type Meta } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Features/Row Ordering Examples',
@@ -10,47 +12,53 @@ const meta: Meta = {
 export default meta;
 
 type Person = {
-  firstName: string;
-  lastName: string;
-  email: string;
   address: string;
   city: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  num: number;
   state: string;
 };
 
 const columns: MRT_ColumnDef<Person>[] = [
   {
-    header: 'First Name',
+    accessorKey: 'num',
+    header: '#',
+  },
+  {
     accessorKey: 'firstName',
+    header: 'First Name',
   },
   {
-    header: 'Last Name',
     accessorKey: 'lastName',
+    header: 'Last Name',
   },
   {
-    header: 'Email Address',
     accessorKey: 'email',
+    header: 'Email Address',
   },
   {
-    header: 'Address',
     accessorKey: 'address',
+    header: 'Address',
   },
   {
-    header: 'City',
     accessorKey: 'city',
+    header: 'City',
   },
   {
-    header: 'State',
     accessorKey: 'state',
+    header: 'State',
   },
 ];
 
-const initData = [...Array(100)].map(() => ({
-  firstName: faker.person.firstName(),
-  lastName: faker.person.lastName(),
-  email: faker.internet.email(),
+const initData = [...Array(100)].map((_, i) => ({
   address: faker.location.streetAddress(),
   city: faker.location.city(),
+  email: faker.internet.email(),
+  firstName: faker.person.firstName(),
+  lastName: faker.person.lastName(),
+  num: i,
   state: faker.location.state(),
 }));
 
@@ -84,7 +92,9 @@ export const RowOrderingEnabled = () => {
 export const RowOrderingWithSelect = () => {
   const [data, setData] = useState(() => initData);
   const [draggingRow, setDraggingRow] = useState<MRT_Row<Person> | null>(null);
-  const [hoveredRow, setHoveredRow] = useState<MRT_Row<Person> | null>(null);
+  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<Person>>>(
+    null,
+  );
 
   return (
     <MantineReactTable
@@ -99,7 +109,7 @@ export const RowOrderingWithSelect = () => {
         onDragEnd: () => {
           if (hoveredRow && draggingRow) {
             data.splice(
-              hoveredRow.index,
+              hoveredRow?.index ?? 0,
               0,
               data.splice(draggingRow.index, 1)[0],
             );
@@ -120,21 +130,23 @@ export const RowOrderingWithSelect = () => {
 export const RowOrderingWithPinning = () => {
   const [data, setData] = useState(() => initData);
   const [draggingRow, setDraggingRow] = useState<MRT_Row<Person> | null>(null);
-  const [hoveredRow, setHoveredRow] = useState<MRT_Row<Person> | null>(null);
+  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<Person>>>(
+    null,
+  );
 
   return (
     <MantineReactTable
       autoResetPageIndex={false}
       columns={columns}
       data={data}
+      enableColumnPinning
       enableRowOrdering
-      enablePinning
       enableSorting={false}
       mantineRowDragHandleProps={{
         onDragEnd: () => {
           if (hoveredRow && draggingRow) {
             data.splice(
-              hoveredRow.index,
+              hoveredRow?.index ?? 0,
               0,
               data.splice(draggingRow.index, 1)[0],
             );
@@ -155,7 +167,9 @@ export const RowOrderingWithPinning = () => {
 export const RowAndColumnOrdering = () => {
   const [data, setData] = useState(() => initData);
   const [draggingRow, setDraggingRow] = useState<MRT_Row<Person> | null>(null);
-  const [hoveredRow, setHoveredRow] = useState<MRT_Row<Person> | null>(null);
+  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<Person>>>(
+    null,
+  );
 
   return (
     <MantineReactTable
@@ -163,14 +177,14 @@ export const RowAndColumnOrdering = () => {
       columns={columns}
       data={data}
       enableColumnOrdering
-      enablePinning
+      enableColumnPinning
       enableRowOrdering
       enableSorting={false}
       mantineRowDragHandleProps={{
         onDragEnd: () => {
           if (hoveredRow && draggingRow) {
             data.splice(
-              hoveredRow.index,
+              hoveredRow.index ?? 0,
               0,
               data.splice(draggingRow.index, 1)[0],
             );
@@ -184,6 +198,83 @@ export const RowAndColumnOrdering = () => {
         draggingRow,
         hoveredRow,
       }}
+    />
+  );
+};
+
+export const RowOrderingWithRowVirtualization = () => {
+  const [data, setData] = useState(() => initData);
+
+  return (
+    <MantineReactTable
+      autoResetPageIndex={false}
+      columns={columns}
+      data={data}
+      enablePagination={false}
+      enableRowOrdering
+      enableRowVirtualization
+      enableSorting={false}
+      mantineRowDragHandleProps={({ table }) => ({
+        onDragEnd: () => {
+          const { draggingRow, hoveredRow } = table.getState();
+          if (hoveredRow && draggingRow) {
+            data.splice(
+              (hoveredRow as MRT_Row<Person>).index,
+              0,
+              data.splice(draggingRow.index, 1)[0],
+            );
+            setData([...data]);
+          }
+        },
+      })}
+    />
+  );
+};
+
+const fakeColumns = [...Array(500)].map((_, i) => {
+  return {
+    accessorKey: i.toString(),
+    header: 'Column ' + i.toString(),
+  };
+});
+
+const fakeData = [...Array(500)].map(() => ({
+  ...Object.fromEntries(
+    fakeColumns.map((col) => [col.accessorKey, faker.person.firstName()]),
+  ),
+}));
+
+export const RowOrderingWithColumnVirtualization = () => {
+  const [data, setData] = useState(() => fakeData);
+
+  return (
+    <MantineReactTable
+      autoResetPageIndex={false}
+      columns={fakeColumns}
+      data={data}
+      displayColumnDefOptions={{
+        'mrt-row-drag': {
+          enableColumnDragging: true,
+          enableColumnOrdering: true,
+        },
+      }}
+      enableColumnOrdering
+      enableColumnVirtualization
+      enableRowOrdering
+      enableSorting={false}
+      mantineRowDragHandleProps={({ table }) => ({
+        onDragEnd: () => {
+          const { draggingRow, hoveredRow } = table.getState();
+          if (hoveredRow && draggingRow) {
+            data.splice(
+              (hoveredRow as MRT_Row<any>).index,
+              0,
+              data.splice(draggingRow.index, 1)[0],
+            );
+            setData([...data]);
+          }
+        },
+      })}
     />
   );
 };
